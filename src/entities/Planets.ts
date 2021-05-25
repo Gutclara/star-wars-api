@@ -24,7 +24,10 @@ import {
   
     @Column()
     gravity: string;
-  
+
+    @Column()
+    population: string;
+
     @Column()
     weather: string;
   

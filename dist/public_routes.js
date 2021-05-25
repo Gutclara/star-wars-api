@@ -15,4 +15,6 @@ var router = express_1.Router();
 router.post('/user', utils_1.safe(actions_1.createUser));
 router.get('/characters', utils_1.safe(actions_1.getCharacters));
 router.post('/characters', utils_1.safe(actions_1.postCharacters));
+router.get('/planets', utils_1.safe(actions_1.getPlanets));
+router.post('/planets', utils_1.safe(actions_1.postPlanets));
 exports["default"] = router;

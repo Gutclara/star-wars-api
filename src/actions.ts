@@ -3,6 +3,7 @@ import { getRepository } from 'typeorm'  // getRepository"  traer una tabla de l
 import { Users } from './entities/Users'
 import { Exception } from './utils'
 import { Characters } from './entities/Characters'
+import { Planets } from './entities/Planets'
 
 export const createUser = async (req: Request, res:Response): Promise<Response> =>{
 
@@ -56,6 +57,41 @@ export const postCharacters = async (req: Request, res: Response): Promise<Respo
         results.push(`that character ${req.body[index].name} wasnt save`)
     } else {const newCharacter = getRepository(Characters).create(req.body[index]);  //Creo un usuario
 	results.push(await getRepository(Characters).save(newCharacter))} //Grabo el nuevo usuario )
+    
+       
+    }
+    
+	return res.json(results);
+}
+
+export const getPlanets = async (req: Request, res: Response): Promise<Response> =>{
+    const planets = await getRepository(Planets).find();        
+    return res.json(planets);
+}
+
+export const postPlanets = async (req: Request, res: Response): Promise<Response> =>{
+    let results= []
+    for (let index = 0; index < req.body.length; index++) {
+        
+    if(!req.body[index].name) results.push(`Please provide a name ${index}`)
+	if(!req.body[index].diameter) results.push(`Please provide some diameter ${index}`)
+	if(!req.body[index].rotation_period) results.push(`Please provide some the rotation period ${index}`)
+    if(!req.body[index].orbital_period) results.push(`Please provide the orbital period ${index}`)
+    if(!req.body[index].gravity) results.push(`Please provide the gravity ${index}`)
+    if(!req.body[index].population) results.push(`Please provide the population ${index}`)
+    if(!req.body[index].weather) results.push(`Please provide the weather ${index}`)
+    if(!req.body[index].land) results.push(`Please provide the land ${index}`)
+    if(!req.body[index].water_on_surface) results.push(`Please provide water_on_surface ${index}`)
+    if(!req.body[index].img_url) results.push(`Please provide an img_url ${index}`)
+
+    const planetsRepo = getRepository(Planets)
+	const planet = await planetsRepo.findOne({ where: {name: req.body[index].name }})
+    if(planet)results.push("That planet alrady exists")
+    else if (!req.body[index].name||!req.body[index].diameter||!req.body[index].rotation_period||!req.body[index].orbital_period||!req.body[index].gravity||!req.body[index].population||!req.body[index].weather||!req.body[index].land||!req.body[index].water_on_surface||!req.body[index].img_url)
+    {
+        results.push(`that planet ${req.body[index].name} wasnt save`)
+    } else {const newPlanet = getRepository(Planets).create(req.body[index]);  //Creo un usuario
+	results.push(await getRepository(Planets).save(newPlanet))} //Grabo el nuevo usuario )
     
        
     }

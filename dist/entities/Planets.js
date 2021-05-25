@@ -60,6 +60,10 @@ var Planets = /** @class */ (function (_super) {
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
+    ], Planets.prototype, "population");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
     ], Planets.prototype, "weather");
     __decorate([
         typeorm_1.Column(),
