@@ -97,13 +97,49 @@ var getCharacters = function (req, res) { return __awaiter(void 0, void 0, void 
 }); };
 exports.getCharacters = getCharacters;
 var postCharacters = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var characters;
+    var results, index, charactersRepo, character, newCharacter;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).find()];
+            case 0:
+                index = 0;
+                _a.label = 1;
             case 1:
-                characters = _a.sent();
-                return [2 /*return*/, res.json(characters)];
+                if (!(index < req.body.length)) return [3 /*break*/, 5];
+                if (!req.body.name)
+                    throw new utils_1.Exception("Please provide a name");
+                if (!req.body.height)
+                    throw new utils_1.Exception("Please provide height");
+                if (!req.body.weight)
+                    throw new utils_1.Exception("Please provide weight");
+                if (!req.body.hair_color)
+                    throw new utils_1.Exception("Please provide hair color");
+                if (!req.body.skin_color)
+                    throw new utils_1.Exception("Please provide skin_color");
+                if (!req.body.eye_color)
+                    throw new utils_1.Exception("Please provide eye_color");
+                if (!req.body.date_of_birth)
+                    throw new utils_1.Exception("Please provide date_of_birth");
+                if (!req.body.gender)
+                    throw new utils_1.Exception("Please provide gender");
+                if (!req.body.description)
+                    throw new utils_1.Exception("Please provide description");
+                if (!req.body.img_url)
+                    throw new utils_1.Exception("Please provide img_url");
+                charactersRepo = typeorm_1.getRepository(Characters_1.Characters);
+                return [4 /*yield*/, charactersRepo.findOne({ where: { name: req.body.name } })];
+            case 2:
+                character = _a.sent();
+                if (character)
+                    throw new utils_1.Exception("This character already exists");
+                newCharacter = typeorm_1.getRepository(Characters_1.Characters).create(req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).save(newCharacter)];
+            case 3:
+                results = _a.sent(); //Grabo el nuevo usuario 
+                _a.label = 4;
+            case 4:
+                index++;
+                return [3 /*break*/, 1];
+            case 5: return [2 /*return*/, res.json(results)];
         }
     });
 }); };

@@ -34,6 +34,28 @@ export const getCharacters = async (req: Request, res: Response): Promise<Respon
 }
 
 export const postCharacters = async (req: Request, res: Response): Promise<Response> =>{
-    const characters = await getRepository(Characters).find();        
-    return res.json(characters);
+    let results
+    for (let index = 0; index < req.body.length; index++) {
+        
+    if(!req.body.name) throw new Exception("Please provide a name")
+	if(!req.body.height) throw new Exception("Please provide height")
+	if(!req.body.weight) throw new Exception("Please provide weight")
+    if(!req.body.hair_color) throw new Exception("Please provide hair color")
+    if(!req.body.skin_color) throw new Exception("Please provide skin_color")
+    if(!req.body.eye_color) throw new Exception("Please provide eye_color")
+    if(!req.body.date_of_birth) throw new Exception("Please provide date_of_birth")
+    if(!req.body.gender) throw new Exception("Please provide gender")
+    if(!req.body.description) throw new Exception("Please provide description")
+    if(!req.body.img_url) throw new Exception("Please provide img_url")
+
+    const charactersRepo = getRepository(Characters)
+	const character = await charactersRepo.findOne({ where: {name: req.body.name }})
+	if(character) throw new Exception("This character already exists")
+
+	const newCharacter = getRepository(Characters).create(req.body);  //Creo un usuario
+	results = await getRepository(Characters).save(newCharacter); //Grabo el nuevo usuario 
+        
+    }
+    
+	return res.json(results);
 }
