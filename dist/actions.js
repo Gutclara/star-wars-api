@@ -97,49 +97,53 @@ var getCharacters = function (req, res) { return __awaiter(void 0, void 0, void 
 }); };
 exports.getCharacters = getCharacters;
 var postCharacters = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, index, charactersRepo, character, newCharacter;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var results, index, charactersRepo, character, newCharacter, _a, _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
+                results = [];
                 index = 0;
-                _a.label = 1;
+                _c.label = 1;
             case 1:
-                if (!(index < req.body.length)) return [3 /*break*/, 5];
-                if (!req.body.name)
-                    throw new utils_1.Exception("Please provide a name");
-                if (!req.body.height)
-                    throw new utils_1.Exception("Please provide height");
-                if (!req.body.weight)
-                    throw new utils_1.Exception("Please provide weight");
-                if (!req.body.hair_color)
-                    throw new utils_1.Exception("Please provide hair color");
-                if (!req.body.skin_color)
-                    throw new utils_1.Exception("Please provide skin_color");
-                if (!req.body.eye_color)
-                    throw new utils_1.Exception("Please provide eye_color");
-                if (!req.body.date_of_birth)
-                    throw new utils_1.Exception("Please provide date_of_birth");
-                if (!req.body.gender)
-                    throw new utils_1.Exception("Please provide gender");
-                if (!req.body.description)
-                    throw new utils_1.Exception("Please provide description");
-                if (!req.body.img_url)
-                    throw new utils_1.Exception("Please provide img_url");
+                if (!(index < req.body.length)) return [3 /*break*/, 6];
+                if (!req.body[index].name)
+                    results.push("Please provide a name");
+                if (!req.body[index].height)
+                    results.push("Please provide height");
+                if (!req.body[index].weight)
+                    results.push("Please provide weight");
+                if (!req.body[index].hair_color)
+                    results.push("Please provide hair color");
+                if (!req.body[index].skin_color)
+                    results.push("Please provide skin_color");
+                if (!req.body[index].eye_color)
+                    results.push("Please provide eye_color");
+                if (!req.body[index].date_of_birth)
+                    results.push("Please provide date_of_birth");
+                if (!req.body[index].gender)
+                    results.push("Please provide gender");
+                if (!req.body[index].description)
+                    results.push("Please provide description");
+                if (!req.body[index].img_url)
+                    results.push("Please provide img_url");
                 charactersRepo = typeorm_1.getRepository(Characters_1.Characters);
-                return [4 /*yield*/, charactersRepo.findOne({ where: { name: req.body.name } })];
+                return [4 /*yield*/, charactersRepo.findOne({ where: { name: req.body[index].name } })];
             case 2:
-                character = _a.sent();
-                if (character)
-                    throw new utils_1.Exception("This character already exists");
-                newCharacter = typeorm_1.getRepository(Characters_1.Characters).create(req.body);
-                return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).save(newCharacter)];
+                character = _c.sent();
+                if (!character) return [3 /*break*/, 3];
+                results.push("that character alrady exist");
+                return [3 /*break*/, 5];
             case 3:
-                results = _a.sent(); //Grabo el nuevo usuario 
-                _a.label = 4;
+                newCharacter = typeorm_1.getRepository(Characters_1.Characters).create(req.body[index]);
+                _b = (_a = results).push;
+                return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).save(newCharacter)];
             case 4:
+                _b.apply(_a, [_c.sent()]);
+                _c.label = 5;
+            case 5:
                 index++;
                 return [3 /*break*/, 1];
-            case 5: return [2 /*return*/, res.json(results)];
+            case 6: return [2 /*return*/, res.json(results)];
         }
     });
 }); };
