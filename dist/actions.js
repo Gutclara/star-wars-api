@@ -105,45 +105,49 @@ var postCharacters = function (req, res) { return __awaiter(void 0, void 0, void
                 index = 0;
                 _c.label = 1;
             case 1:
-                if (!(index < req.body.length)) return [3 /*break*/, 6];
+                if (!(index < req.body.length)) return [3 /*break*/, 7];
                 if (!req.body[index].name)
-                    results.push("Please provide a name");
+                    results.push("Please provide a name " + index);
                 if (!req.body[index].height)
-                    results.push("Please provide height");
+                    results.push("Please provide some height " + index);
                 if (!req.body[index].weight)
-                    results.push("Please provide weight");
+                    results.push("Please provide some weight " + index);
                 if (!req.body[index].hair_color)
-                    results.push("Please provide hair color");
+                    results.push("Please provide some hair color " + index);
                 if (!req.body[index].skin_color)
-                    results.push("Please provide skin_color");
+                    results.push("Please provide some skin_color " + index);
                 if (!req.body[index].eye_color)
-                    results.push("Please provide eye_color");
+                    results.push("Please provide some eye_color " + index);
                 if (!req.body[index].date_of_birth)
-                    results.push("Please provide date_of_birth");
+                    results.push("Please provide the date_of_birth " + index);
                 if (!req.body[index].gender)
-                    results.push("Please provide gender");
+                    results.push("Please provide somegender " + index);
                 if (!req.body[index].description)
-                    results.push("Please provide description");
+                    results.push("Please provide adescription " + index);
                 if (!req.body[index].img_url)
-                    results.push("Please provide img_url");
+                    results.push("Please provide an img_url " + index);
                 charactersRepo = typeorm_1.getRepository(Characters_1.Characters);
                 return [4 /*yield*/, charactersRepo.findOne({ where: { name: req.body[index].name } })];
             case 2:
                 character = _c.sent();
                 if (!character) return [3 /*break*/, 3];
-                results.push("that character alrady exist");
-                return [3 /*break*/, 5];
+                results.push("That character alrady exists");
+                return [3 /*break*/, 6];
             case 3:
+                if (!(!req.body[index].name || !req.body[index].height || !req.body[index].weight || !req.body[index].hair_color || !req.body[index].skin_color || !req.body[index].eye_color || !req.body[index].date_of_birth || !req.body[index].gender || !req.body[index].description || !req.body[index].img_url)) return [3 /*break*/, 4];
+                results.push("that character " + req.body[index].name + " wasnt save");
+                return [3 /*break*/, 6];
+            case 4:
                 newCharacter = typeorm_1.getRepository(Characters_1.Characters).create(req.body[index]);
                 _b = (_a = results).push;
                 return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).save(newCharacter)];
-            case 4:
-                _b.apply(_a, [_c.sent()]);
-                _c.label = 5;
             case 5:
+                _b.apply(_a, [_c.sent()]);
+                _c.label = 6;
+            case 6:
                 index++;
                 return [3 /*break*/, 1];
-            case 6: return [2 /*return*/, res.json(results)];
+            case 7: return [2 /*return*/, res.json(results)];
         }
     });
 }); };

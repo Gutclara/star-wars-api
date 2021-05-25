@@ -37,21 +37,23 @@ export const postCharacters = async (req: Request, res: Response): Promise<Respo
     let results= []
     for (let index = 0; index < req.body.length; index++) {
         
-    if(!req.body[index].name) results.push("Please provide a name")
-	if(!req.body[index].height) results.push("Please provide height")
-	if(!req.body[index].weight) results.push("Please provide weight")
-    if(!req.body[index].hair_color) results.push("Please provide hair color")
-    if(!req.body[index].skin_color)results.push("Please provide skin_color")
-    if(!req.body[index].eye_color) results.push("Please provide eye_color")
-    if(!req.body[index].date_of_birth) results.push("Please provide date_of_birth")
-    if(!req.body[index].gender) results.push("Please provide gender")
-    if(!req.body[index].description) results.push("Please provide description")
-    if(!req.body[index].img_url) results.push("Please provide img_url")
+    if(!req.body[index].name) results.push(`Please provide a name ${index}`)
+	if(!req.body[index].height) results.push(`Please provide some height ${index}`)
+	if(!req.body[index].weight) results.push(`Please provide some weight ${index}`)
+    if(!req.body[index].hair_color) results.push(`Please provide some hair color ${index}`)
+    if(!req.body[index].skin_color)results.push(`Please provide some skin_color ${index}`)
+    if(!req.body[index].eye_color) results.push(`Please provide some eye_color ${index}`)
+    if(!req.body[index].date_of_birth) results.push(`Please provide the date_of_birth ${index}`)
+    if(!req.body[index].gender) results.push(`Please provide somegender ${index}`)
+    if(!req.body[index].description) results.push(`Please provide adescription ${index}`)
+    if(!req.body[index].img_url) results.push(`Please provide an img_url ${index}`)
 
     const charactersRepo = getRepository(Characters)
 	const character = await charactersRepo.findOne({ where: {name: req.body[index].name }})
-	if(character){
-        results.push("that character alrady exist")
+    if(character)results.push("That character alrady exists")
+    else if (!req.body[index].name||!req.body[index].height||!req.body[index].weight||!req.body[index].hair_color||!req.body[index].skin_color||!req.body[index].eye_color||!req.body[index].date_of_birth||!req.body[index].gender||!req.body[index].description||!req.body[index].img_url)
+    {
+        results.push(`that character ${req.body[index].name} wasnt save`)
     } else {const newCharacter = getRepository(Characters).create(req.body[index]);  //Creo un usuario
 	results.push(await getRepository(Characters).save(newCharacter))} //Grabo el nuevo usuario )
     
