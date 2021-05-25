@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'  // getRepository"  traer una tabla de la base de datos asociada al objeto
 import { Users } from './entities/Users'
 import { Exception } from './utils'
+import { Characters } from './entities/Characters'
 
 export const createUser = async (req: Request, res:Response): Promise<Response> =>{
 
@@ -25,4 +26,14 @@ export const createUser = async (req: Request, res:Response): Promise<Response> 
 export const getUsers = async (req: Request, res: Response): Promise<Response> =>{
 		const users = await getRepository(Users).find();
 		return res.json(users);
+}
+
+export const getCharacters = async (req: Request, res: Response): Promise<Response> =>{
+    const characters = await getRepository(Characters).find();        
+    return res.json(characters);
+}
+
+export const postCharacters = async (req: Request, res: Response): Promise<Response> =>{
+    const characters = await getRepository(Characters).find();        
+    return res.json(characters);
 }

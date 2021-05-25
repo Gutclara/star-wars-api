@@ -36,10 +36,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getUsers = exports.createUser = void 0;
+exports.postCharacters = exports.getCharacters = exports.getUsers = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
 var utils_1 = require("./utils");
+var Characters_1 = require("./entities/Characters");
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var userRepo, user, newUser, results;
     return __generator(this, function (_a) {
@@ -83,3 +84,27 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
     });
 }); };
 exports.getUsers = getUsers;
+var getCharacters = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var characters;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).find()];
+            case 1:
+                characters = _a.sent();
+                return [2 /*return*/, res.json(characters)];
+        }
+    });
+}); };
+exports.getCharacters = getCharacters;
+var postCharacters = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var characters;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).find()];
+            case 1:
+                characters = _a.sent();
+                return [2 /*return*/, res.json(characters)];
+        }
+    });
+}); };
+exports.postCharacters = postCharacters;

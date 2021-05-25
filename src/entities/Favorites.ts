@@ -17,12 +17,10 @@ import {
    @ManyToOne(() => Users, user => user.id)
    userid: Users;
 
-   @OneToOne(() => Characters)
-   @JoinColumn()
+   @ManyToOne(()=> Characters, character => character.id)
    character: Characters;
 
-   @OneToOne(() => Planets)
-   @JoinColumn()
+   @ManyToOne(() => Planets, planet => planet.id)
    planet: Planets;
 
     

@@ -44,13 +44,11 @@ var Favorites = /** @class */ (function (_super) {
         __metadata("design:type", Users_1.Users)
     ], Favorites.prototype, "userid");
     __decorate([
-        typeorm_1.OneToOne(function () { return Characters_1.Characters; }),
-        typeorm_1.JoinColumn(),
+        typeorm_1.ManyToOne(function () { return Characters_1.Characters; }, function (character) { return character.id; }),
         __metadata("design:type", Characters_1.Characters)
     ], Favorites.prototype, "character");
     __decorate([
-        typeorm_1.OneToOne(function () { return Planets_1.Planets; }),
-        typeorm_1.JoinColumn(),
+        typeorm_1.ManyToOne(function () { return Planets_1.Planets; }, function (planet) { return planet.id; }),
         __metadata("design:type", Planets_1.Planets)
     ], Favorites.prototype, "planet");
     Favorites = __decorate([
