@@ -1,6 +1,6 @@
 import {
     Entity, Column, PrimaryGeneratedColumn, OneToMany, 
-    BaseEntity, JoinTable
+    BaseEntity, 
   } from 'typeorm';
 import { Favorites } from './Favorites';
   
