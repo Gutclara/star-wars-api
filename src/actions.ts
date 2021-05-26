@@ -5,6 +5,7 @@ import { Exception } from './utils'
 import { Characters } from './entities/Characters'
 import { Planets } from './entities/Planets'
 import jwt from 'jsonwebtoken'
+import { Favorites } from './entities/Favorites'
 
 export const createUser = async (req: Request, res:Response): Promise<Response> =>{
 
@@ -124,3 +125,51 @@ export const getPlanetId = async (req: Request, res: Response): Promise<Response
     return res.json({planet});
 }
 
+export const getFavoritesId = async (req: Request, res: Response): Promise<Response> =>{
+    const favorites = await getRepository(Favorites).find({ where: {usuarioid: req.params.userId }});
+    return res.json({favorites});
+}
+
+interface IToken{
+    user: Users,
+    iat: number,
+    exp: number
+}
+
+
+export const postFavoritesPlanets = async (req: Request, res: Response): Promise<Response> =>{
+   const token = req.user as IToken
+   let newFavoritePlanet = new Favorites()
+   newFavoritePlanet.userid = token.user
+   const planet = await getRepository(Planets).findOne(req.params.planetId);
+   newFavoritePlanet.planet = planet as Planets
+   const results = await getRepository(Favorites).save(newFavoritePlanet)
+   return res.json(results);
+}
+
+export const postFavoritesCharacters = async (req: Request, res: Response): Promise<Response> =>{
+   const token = req.user as IToken
+   let newFavoriteCharacter = new Favorites()
+   newFavoriteCharacter.userid = token.user
+   const character = await getRepository(Characters).findOne(req.params.characterId);
+   newFavoriteCharacter.character = character as Characters
+   const results = await getRepository(Favorites).save(newFavoriteCharacter)
+   return res.json(results);
+}
+
+export const deleteFavoritesPlanets = async (req: Request, res: Response): Promise<Response> =>{
+    const planet = await getRepository(Planets).findOne(req.params.planetaid);
+    const favoritesPlanets = await getRepository(Favorites).findOne({where: {planet:planet}})
+    if(!favoritesPlanets) throw new Exception("YOu dont have that planet in Favorites")
+    const results = await getRepository(Favorites).delete({planet:planet})
+    return res.json(results);
+   
+}
+
+export const deleteFavoritesCharacters = async (req: Request, res: Response): Promise<Response> =>{
+    const character = await getRepository(Characters).findOne(req.params.characterid);
+    const favoritesCharacters = await getRepository(Favorites).findOne({where: {character:character}})
+    if(!favoritesCharacters) throw new Exception("YOu dont have that character in Favorites")
+    const results = await getRepository(Favorites).delete({character: character})
+    return res.json(results);
+}
