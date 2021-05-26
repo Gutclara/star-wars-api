@@ -38,6 +38,8 @@ export const getCharacters = async (req: Request, res: Response): Promise<Respon
 
 export const postCharacters = async (req: Request, res: Response): Promise<Response> =>{
     let results= []
+    if (req.body.length <= 0) results.push("Please provide an array de objetos")
+    console.log("holi", req.body)
     for (let index = 0; index < req.body.length; index++) {
         
     if(!req.body[index].name) results.push(`Please provide a name ${index}`)
@@ -47,7 +49,7 @@ export const postCharacters = async (req: Request, res: Response): Promise<Respo
     if(!req.body[index].skin_color)results.push(`Please provide some skin_color ${index}`)
     if(!req.body[index].eye_color) results.push(`Please provide some eye_color ${index}`)
     if(!req.body[index].date_of_birth) results.push(`Please provide the date_of_birth ${index}`)
-    if(!req.body[index].gender) results.push(`Please provide somegender ${index}`)
+    if(!req.body[index].gender) results.push(`Please provide some gender ${index}`)
     if(!req.body[index].description) results.push(`Please provide adescription ${index}`)
     if(!req.body[index].img_url) results.push(`Please provide an img_url ${index}`)
 
@@ -116,18 +118,18 @@ export const login = async (req: Request, res: Response): Promise<Response> =>{
 }
 
 export const getCharacterId = async (req: Request, res: Response): Promise<Response> =>{
-    const character = await getRepository(Characters).findOne(req.params.characterId);
+    const character = await getRepository(Characters).findOne(req.params.characterid);
     return res.json({character});
 }
 
 export const getPlanetId = async (req: Request, res: Response): Promise<Response> =>{
-    const planet = await getRepository(Planets).findOne(req.params.planetId);
+    const planet = await getRepository(Planets).findOne(req.params.planetid);
     return res.json({planet});
 }
 
 export const getFavoritesId = async (req: Request, res: Response): Promise<Response> =>{
-    const favorites = await getRepository(Favorites).find({ where: {usuarioid: req.params.userId }});
-    return res.json({favorites});
+    const favorites = await getRepository(Favorites).find({relations:[""]},{ where: {userid: req.params.userid }});
+    return res.json(favorites);
 }
 
 interface IToken{
@@ -141,7 +143,7 @@ export const postFavoritesPlanets = async (req: Request, res: Response): Promise
    const token = req.user as IToken
    let newFavoritePlanet = new Favorites()
    newFavoritePlanet.userid = token.user
-   const planet = await getRepository(Planets).findOne(req.params.planetId);
+   const planet = await getRepository(Planets).findOne(req.params.planetid);
    newFavoritePlanet.planet = planet as Planets
    const results = await getRepository(Favorites).save(newFavoritePlanet)
    return res.json(results);
@@ -151,7 +153,7 @@ export const postFavoritesCharacters = async (req: Request, res: Response): Prom
    const token = req.user as IToken
    let newFavoriteCharacter = new Favorites()
    newFavoriteCharacter.userid = token.user
-   const character = await getRepository(Characters).findOne(req.params.characterId);
+   const character = await getRepository(Characters).findOne(req.params.characterid);
    newFavoriteCharacter.character = character as Characters
    const results = await getRepository(Favorites).save(newFavoriteCharacter)
    return res.json(results);

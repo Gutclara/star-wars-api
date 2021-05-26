@@ -108,6 +108,9 @@ var postCharacters = function (req, res) { return __awaiter(void 0, void 0, void
         switch (_c.label) {
             case 0:
                 results = [];
+                if (req.body.length <= 0)
+                    results.push("Please provide an array de objetos");
+                console.log("holi", req.body);
                 index = 0;
                 _c.label = 1;
             case 1:
@@ -127,7 +130,7 @@ var postCharacters = function (req, res) { return __awaiter(void 0, void 0, void
                 if (!req.body[index].date_of_birth)
                     results.push("Please provide the date_of_birth " + index);
                 if (!req.body[index].gender)
-                    results.push("Please provide somegender " + index);
+                    results.push("Please provide some gender " + index);
                 if (!req.body[index].description)
                     results.push("Please provide adescription " + index);
                 if (!req.body[index].img_url)
@@ -253,7 +256,7 @@ var getCharacterId = function (req, res) { return __awaiter(void 0, void 0, void
     var character;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).findOne(req.params.characterId)];
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).findOne(req.params.characterid)];
             case 1:
                 character = _a.sent();
                 return [2 /*return*/, res.json({ character: character })];
@@ -265,7 +268,7 @@ var getPlanetId = function (req, res) { return __awaiter(void 0, void 0, void 0,
     var planet;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne(req.params.planetId)];
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne(req.params.planetid)];
             case 1:
                 planet = _a.sent();
                 return [2 /*return*/, res.json({ planet: planet })];
@@ -277,10 +280,10 @@ var getFavoritesId = function (req, res) { return __awaiter(void 0, void 0, void
     var favorites;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Favorites_1.Favorites).find({ where: { usuarioid: req.params.userId } })];
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Favorites_1.Favorites).find({ relations: [""] }, { where: { userid: req.params.userid } })];
             case 1:
                 favorites = _a.sent();
-                return [2 /*return*/, res.json({ favorites: favorites })];
+                return [2 /*return*/, res.json(favorites)];
         }
     });
 }); };
@@ -293,7 +296,7 @@ var postFavoritesPlanets = function (req, res) { return __awaiter(void 0, void 0
                 token = req.user;
                 newFavoritePlanet = new Favorites_1.Favorites();
                 newFavoritePlanet.userid = token.user;
-                return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne(req.params.planetId)];
+                return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne(req.params.planetid)];
             case 1:
                 planet = _a.sent();
                 newFavoritePlanet.planet = planet;
@@ -313,7 +316,7 @@ var postFavoritesCharacters = function (req, res) { return __awaiter(void 0, voi
                 token = req.user;
                 newFavoriteCharacter = new Favorites_1.Favorites();
                 newFavoriteCharacter.userid = token.user;
-                return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).findOne(req.params.characterId)];
+                return [4 /*yield*/, typeorm_1.getRepository(Characters_1.Characters).findOne(req.params.characterid)];
             case 1:
                 character = _a.sent();
                 newFavoriteCharacter.character = character;

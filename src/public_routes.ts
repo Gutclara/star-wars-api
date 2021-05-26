@@ -19,8 +19,8 @@ router.post('/characters', safe(postCharacters));
 router.get('/planets', safe(getPlanets));
 router.post('/planets', safe(postPlanets));
 router.post('/login',safe(login));
-router.get('/personajes/:characterid', safe(getCharacterId));
-router.get('/planetas/:planetid', safe(getPlanetId));
+router.get('/characters/:characterid', safe(getCharacterId));
+router.get('/planets/:planetid', safe(getPlanetId));
 
 
 export default router;
