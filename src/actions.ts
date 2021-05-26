@@ -38,8 +38,7 @@ export const getCharacters = async (req: Request, res: Response): Promise<Respon
 
 export const postCharacters = async (req: Request, res: Response): Promise<Response> =>{
     let results= []
-    if (req.body.length <= 0) results.push("Please provide an array de objetos")
-    console.log("holi", req.body)
+    if (!req.body.length) return res.status(400).json('this is empty')
     for (let index = 0; index < req.body.length; index++) {
         
     if(!req.body[index].name) results.push(`Please provide a name ${index}`)
@@ -75,6 +74,7 @@ export const getPlanets = async (req: Request, res: Response): Promise<Response>
 
 export const postPlanets = async (req: Request, res: Response): Promise<Response> =>{
     let results= []
+    if (!req.body.length) return res.status(400).json('this is empty')
     for (let index = 0; index < req.body.length; index++) {
         
     if(!req.body[index].name) results.push(`Please provide a name ${index}`)
@@ -128,7 +128,7 @@ export const getPlanetId = async (req: Request, res: Response): Promise<Response
 }
 
 export const getFavoritesId = async (req: Request, res: Response): Promise<Response> =>{
-    const favorites = await getRepository(Favorites).find({relations:[""]},{ where: {userid: req.params.userid }});
+    const favorites = await getRepository(Favorites).find({relations:["character","planet"], where: {userid: req.params.userid }});
     return res.json(favorites);
 }
 

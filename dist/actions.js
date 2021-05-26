@@ -108,9 +108,8 @@ var postCharacters = function (req, res) { return __awaiter(void 0, void 0, void
         switch (_c.label) {
             case 0:
                 results = [];
-                if (req.body.length <= 0)
-                    results.push("Please provide an array de objetos");
-                console.log("holi", req.body);
+                if (!req.body.length)
+                    return [2 /*return*/, res.status(400).json('this is empty')];
                 index = 0;
                 _c.label = 1;
             case 1:
@@ -179,6 +178,8 @@ var postPlanets = function (req, res) { return __awaiter(void 0, void 0, void 0,
         switch (_c.label) {
             case 0:
                 results = [];
+                if (!req.body.length)
+                    return [2 /*return*/, res.status(400).json('this is empty')];
                 index = 0;
                 _c.label = 1;
             case 1:
@@ -280,7 +281,7 @@ var getFavoritesId = function (req, res) { return __awaiter(void 0, void 0, void
     var favorites;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Favorites_1.Favorites).find({ relations: [""] }, { where: { userid: req.params.userid } })];
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Favorites_1.Favorites).find({ relations: ["character", "planet"], where: { userid: req.params.userid } })];
             case 1:
                 favorites = _a.sent();
                 return [2 /*return*/, res.json(favorites)];
